@@ -41,7 +41,7 @@ router.post('/:id/actions', [ validateProjectId , validateAction ], (req, res) =
 
 router.get('/', (req, res) => {
     Projects.get(req.query)
-    .then(projects => {
+    .then(project => {
       res.status(200).json(project);
     })
     .catch(error => {
@@ -69,7 +69,7 @@ router.get('/:id', [ validateProjectId ], (req, res) => {
 });
 
 router.get('/:id/actions', [ validateProjectId],(req, res) => {
-    Project.getProjectActions(req.params.id)
+    Projects.getProjectActions(req.params.id)
     .then(actions => {
       res.status(200).json(actions);
     })
