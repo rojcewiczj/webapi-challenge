@@ -82,13 +82,13 @@ router.get('/:id/actions', [ validateProjectId],(req, res) => {
     });
 });
 
-router.delete('/:id', [ validateUserId ], (req, res) => {
-    Users.remove(req.params.id)
+router.delete('/:id', [ validateProjectId ], (req, res) => {
+    Projects.remove(req.params.id)
     .then(count => {
-      if (count > 0) {
-        res.status(200).json({ message: 'This user has been removed' });
+      if (count) {
+        res.status(200).json({ message: 'This project has been removed' });
       } else {
-        res.status(404).json({ message: 'The user could not be found' });
+        res.status(404).json({ message: 'The project could not be found' });
       }
     })
     .catch(error => {
@@ -100,10 +100,10 @@ router.delete('/:id', [ validateUserId ], (req, res) => {
     });
 });
 
-router.put('/:id', [ validateUserId, validateUser ], (req, res) => {
-    Users.update(req.params.id, req.body)
+router.put('/:id', [ validateProjectId, validateProject ], (req, res) => {
+    Projects.update(req.params.id, req.body)
     .then(count => {
-        if (count === 1) {
+        if (count) {
           res.status(200).json({ message: 'This user has been updated' });
         } else {
           res.status(404).json({ message: 'This user was not found' });
@@ -120,15 +120,15 @@ router.put('/:id', [ validateUserId, validateUser ], (req, res) => {
 
 //custom middleware
 
-function validateUserId(req, res, next) {
+function validateProjectId(req, res, next) {
     const { id } = req.params;
-    Users.getById(id)
-    .then(user => {
-      if (user) {
-        req.user = user;
+    Projects.get(id)
+    .then(project => {
+      if (project) {
+        req.project = project;
         next();
       } else {
-        res.status(400).json({ message: "Invalid user ID"});
+        res.status(400).json({ message: "Invalid project ID"});
         
         // error handling middleware option:
         // next({ message: "Invalid id; hub not found"});
@@ -147,15 +147,15 @@ function validateUserId(req, res, next) {
 
 
 
-function validateUser(req, res, next) {
-    const User = req.body;
-    if (User && Object.keys(User).length > 0) {
+function validateProject(req, res, next) {
+    const Project = req.body;
+    if (Project && Object.keys(Project).length > 0) {
         next();
-      } else if (!User.name ){
-        res.status(400).json({ message: 'missing required name field' });
+      } else if (!Project.name || !Project.description ){
+        res.status(400).json({ message: 'missing required name or description field' });
       }
       else {
-        res.status(400).json({ message: "missing user data" });
+        res.status(400).json({ message: "missing Project data" });
       
         // error handling middleware option:
         // next({ message: "Please include request body" }));
@@ -163,15 +163,15 @@ function validateUser(req, res, next) {
     };
       
 
-function validatePost(req, res, next) {
-    const Post = req.body;
-    if (Post && Object.keys(Post).length > 0) {
+function validateAction(req, res, next) {
+    const Action = req.body;
+    if (Action && Object.keys(Action).length > 0) {
         next();
-      } else if (!Post.text ){
-        res.status(400).json({ message: 'missing required text field' });
+      } else if (!Action.description || !Action.notes ){
+        res.status(400).json({ message: 'missing required description or notes field' });
       }
       else {
-        res.status(400).json({ message: "missing post data" });
+        res.status(400).json({ message: "missing action data" });
       
         // error handling middleware option:
         // next({ message: "Please include request body" }));
