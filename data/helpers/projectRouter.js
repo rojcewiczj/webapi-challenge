@@ -23,18 +23,18 @@ router.post('/', [validateProject], (req, res) => {
       });
 });
 
-router.post('/:id/posts', [ validateUserId , validatePost ], (req, res) => {
-    const Post = { ...req.body, user_id: req.params.id };
+router.post('/:id/actions', [ validateProjectId , validateAction ], (req, res) => {
+    const Action = { ...req.body, project_id: req.params.id };
 
-    Posts.insert(Post)
-    .then(post => {
-      res.status(210).json(post);
+    Actions.insert(Action)
+    .then(action => {
+      res.status(210).json(action);
     })
     .catch(error => {
       // log error to server
       console.log(error);
       res.status(500).json({
-        message: 'Error getting the post for the user',
+        message: 'Error getting the action for the project',
       });
     });
 });
