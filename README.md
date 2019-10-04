@@ -26,13 +26,25 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+ How tp use the routing feature of express to build multiple endpoints,
+ and how to ue express middleware to pre-check your routes for any errors.
+
 - [ ] Describe Middleware?
+
+There are different types of middleware but they all serve as an intermediary step between the server "coming on" and anything else running.
 
 - [ ] Describe a Resource?
 
+A resource is anything that express uses to extend its functionality. 
+
 - [ ] What can the API return to help clients know if a request was successful?
 
+API's can return status as well as error messages to inform the client.
+
 - [ ] How can we partition our application into sub-applications?
+
+Similiar to creating components, we can seperate our middleware, routs, server, index etc.
+so as to create clean reusable code.
 
 ## Project Setup
 
