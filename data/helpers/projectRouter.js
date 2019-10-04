@@ -40,22 +40,22 @@ router.post('/:id/actions', [ validateProjectId , validateAction ], (req, res) =
 });
 
 router.get('/', (req, res) => {
-    Users.get(req.query)
-    .then(users => {
-      res.status(200).json(users);
+    Projects.get(req.query)
+    .then(projects => {
+      res.status(200).json(project);
     })
     .catch(error => {
       // log error to database
       console.log(error);
       res.status(500).json({
-        message: 'The users could not be retrieved.',
+        message: 'The projects could not be retrieved.',
       });
     });
 });
 
-router.get('/:id', [ validateUserId ], (req, res) => {
+router.get('/:id', [ validateProjectId ], (req, res) => {
     const id = req.params.id;
-    Users.getById(id)
+    Projects.get(id)
        .then(user => {
            res.status(200).json(user);
        })
@@ -63,21 +63,21 @@ router.get('/:id', [ validateUserId ], (req, res) => {
          // log error to database
          console.log(error);
          res.status(500).json({
-           error: '"This users information could not be retrieved."',
+           error: '"This projects information could not be retrieved."',
          });
        });
 });
 
-router.get('/:id/posts', [ validateUserId],(req, res) => {
-    Users.getUserPosts(req.params.id)
-    .then(posts => {
-      res.status(200).json(posts);
+router.get('/:id/actions', [ validateProjectId],(req, res) => {
+    Project.getProjectActions(req.params.id)
+    .then(actions => {
+      res.status(200).json(actions);
     })
     .catch(error => {
       // log error to server
       console.log(error);
       res.status(500).json({
-        message: 'Error getting the posts of this user',
+        message: 'Error getting the actions of this project',
       });
     });
 });
